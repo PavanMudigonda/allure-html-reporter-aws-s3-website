@@ -12,10 +12,10 @@ jobs:
       - name: Checkout Git Repo
         uses: actions/checkout@v3
 
-      - name: Create Allure Test Results History
-        uses: PavanMudigonda/allure-html-report-s3-website@v0.1
+      - name: allure-html-report-s3-website
+        uses: PavanMudigonda/allure-html-report-aws-s3-website@v0.1
         with:
-          report_url: http://cicd-devops-mudigonda.s3-website-us-east-1.amazonaws.com
+          report_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com
           allure_results: allure-results
           allure_history: allure-history
           allure_report: allure-report
@@ -26,7 +26,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-          SOURCE_DIR: 'playwright-history'      # optional: defaults to entire repository
+          SOURCE_DIR: 'allure-history'      # optional: defaults to entire repository
           # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
           
       - name: Post the link to the report
