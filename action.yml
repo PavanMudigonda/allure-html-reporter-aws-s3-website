@@ -17,6 +17,10 @@ inputs:
     description: 'Folder for allure history'
     required: true
     default: 'allure-history'
+  keep_reports:
+    description: 'Keep X last reports'
+    required: false
+    default: '20'    
   github_run_num:
     description: 'GitHub Actions build number'
     required: true
