@@ -1,5 +1,6 @@
 FROM python:3.11-rc-alpine
 
+
 LABEL "com.github.actions.name"="Playwright HTML Reporter AWS S3 Upload"
 LABEL "com.github.actions.description"="Upload Playwright HTML Test Results to an AWS S3 repository"
 LABEL "com.github.actions.icon"="refresh-cw"
@@ -17,11 +18,33 @@ RUN pip install --quiet --no-cache-dir awscli==${AWSCLI_VERSION}
 
 RUN apk update && \
     apk add --no-cache bash wget unzip && \
+    rm -rf /var/cache/apk/* \
+    && apk upgrade \
+    && apk add ca-certificates \
+    && update-ca-certificates \
+    && apk add --update coreutils && rm -rf /var/cache/apk/*   \ 
+    && apk add --update openjdk11 tzdata curl unzip bash \
+    && apk add --no-cache nss \
+    && rm -rf /var/cache/apk/*
+
+ARG RELEASE=2.18.1
+ARG ALLURE_REPO=https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline
+
+RUN echo $RELEASE && \
+    apk update && \
+    apk add --no-cache bash wget unzip && \
     rm -rf /var/cache/apk/*
 
-ENV ROOT=/app
+RUN wget --no-verbose -O /tmp/allure-$RELEASE.tgz $ALLURE_REPO/$RELEASE/allure-commandline-$RELEASE.tgz && \
+    tar -xf /tmp/allure-$RELEASE.tgz && \
+    rm -rf /tmp/* && \
+    chmod -R +x /allure-$RELEASE/bin
+
+ENV ROOT=/app \
+    PATH=$PATH:/allure-$RELEASE/bin
 
 RUN mkdir -p $ROOT
+
 
 WORKDIR $ROOT
 
