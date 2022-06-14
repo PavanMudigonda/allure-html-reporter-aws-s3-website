@@ -1,14 +1,14 @@
-Example workflow file [playwright-github-pages](https://github.com/PavanMudigonda/playwright-html-reporter-s3-website/blob/main/.github/workflows/main.yml))
+Example workflow file [playwright-github-pages](https://github.com/PavanMudigonda/allure-html-report-s3-website/blob/main/.github/workflows/allure.yml))
 
 # Playwright HTML Test Results on AWS S3 Bucket with history action
 
 ## Usage
 
-### `main.yml` Example
+### `allure.yml` Example
 
 Place in a `.yml` file such as this one in your `.github/workflows` folder. [Refer to the documentation on workflow YAML syntax here.](https://help.github.com/en/articles/workflow-syntax-for-github-actions)
 
-As of v0.2, all [`aws s3 sync` flags](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html) are optional to allow for maximum customizability (that's a word, I promise) and must be provided by you via `args:`.
+As of v0.1, all [`aws s3 sync` flags](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html) are optional to allow for maximum customizability (that's a word, I promise) and must be provided by you via `args:`.
 
 #### The following example includes optimal defaults for a public static website:
 
@@ -29,22 +29,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name:  Upload Playwright Test Results History to S3
-        uses: PavanMudigonda/playwright-html-reporter-s3-website@v0.2
-        id: aws_s3_test_results_upload
+      - name: allure-html-report-s3-website
+        uses: PavanMudigonda/allure-html-report-aws-s3-website@v0.1
         with:
-          report_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com
-          playwright_results: test-results 
-          playwright_history: playwright-history
-          keep_reports: 20
-          args: --acl public-read --follow-symlinks. # for public enabling use acl public-read # Please remove if its private bucket
+          report_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com
+          allure_results: allure-results
+          allure_history: allure-history
+          allure_report: allure-report
+          keep_reports: 2
+          args: --acl public-read --follow-symlinks
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-          SOURCE_DIR: 'playwright-history'      # optional: defaults to entire repository
+          SOURCE_DIR: 'allure-history'      # optional: defaults to entire repository
           # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
+      - name: Post the link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with: 
+            authToken: ${{secrets.GITHUB_TOKEN}}
+            context: 'Test Results Link'
+            state: 'success'
+            sha: ${{ github.sha }}
+            target_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com/${{ github.run_number }}/index.html          
 ```
 
 
@@ -68,13 +77,16 @@ The following settings must be passed as environment variables as shown in the e
 
 ### AWS S3 Static Website Sample:- Full Report, Errors, Screenshots, Trace, Video is fully visible !
 
-![image](https://user-images.githubusercontent.com/29324338/173658258-88247b45-c2f5-46d7-b2a0-12faaae72b52.png)
+<img width="1096" alt="image" src="https://user-images.githubusercontent.com/29324338/173703637-a30667f5-4ff7-487e-bbf5-fcd015d44263.png">
 
-![image](https://user-images.githubusercontent.com/29324338/173658415-49b56fb9-d317-49db-8e0e-e3b6e8196c0a.png)
+<img width="1419" alt="image" src="https://user-images.githubusercontent.com/29324338/173703662-0f6a8c54-466e-4722-8344-b1c8635a57e1.png">
+<img width="841" alt="image" src="https://user-images.githubusercontent.com/29324338/173703700-419a6697-e235-422f-af87-cfd4236eb6a6.png">
 
-![image](https://user-images.githubusercontent.com/29324338/173658484-1121d0c2-2df4-4bf1-b2d0-a37f6f77c0d5.png)
+<img width="1405" alt="image" src="https://user-images.githubusercontent.com/29324338/173703723-00ec4828-2232-432a-8f22-4dfa074ffcb9.png">
 
-![image](https://user-images.githubusercontent.com/29324338/173658512-23658238-2c47-407f-8c30-869812629228.png)
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/29324338/173703740-f2d3c1f3-1bbe-483c-a198-7c88b92f7b1f.png">
+
+
 
 
 ## License
