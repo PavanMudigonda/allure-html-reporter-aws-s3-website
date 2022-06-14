@@ -1,0 +1,34 @@
+name: 'playwright-html-reporter-s3-website'
+description: 'Playwright HTML Test Results with history to publish to AWS S3 Bucket'
+author: 'Pavan Mudigonda'
+branding:
+  icon: 'layout'
+  color: 'green'
+inputs:
+  playwright_results:
+    description: 'Playwright test result data dir'
+    required: true
+    default: 'test-results'
+  playwright_history:
+    description: 'Folder for playwright history'
+    required: true
+    default: 'playwright-history'
+  keep_reports:
+    description: 'Keep X last reports'
+    required: false
+    default: '20'    
+  github_run_num:
+    description: 'GitHub Actions build number'
+    required: true
+    default: ${{ github.run_number }}
+  github_run_id:
+    description: 'GitHub Actions run id'
+    required: true
+    default: ${{ github.run_id }}
+  report_url:
+    description: 'Use a custom URL instead of *.github.io'
+    required: false
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
