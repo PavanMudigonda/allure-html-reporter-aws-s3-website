@@ -1,17 +1,42 @@
 #! /usr/bin/env bash
-mkdir -p ./${INPUT_PLAYWRIGHT_HISTORY}
+
+unset JAVA_HOME
+
+mkdir -p ./${INPUT_ALLURE_HISTORY}
 
 if [[ ${INPUT_REPORT_URL} != '' ]]; then
     S3_WEBSITE_URL="${INPUT_REPORT_URL}"
 fi
+#echo "executor.json"
+echo '{"name":"GitHub Actions","type":"github","reportName":"Allure Report with history",' > executor.json
+echo "\"url\":\"${GITHUB_PAGES_WEBSITE_URL}\"," >> executor.json # ???
+echo "\"reportUrl\":\"${GITHUB_PAGES_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\"," >> executor.json
+echo "\"buildUrl\":\"https://github.com/${INPUT_GITHUB_REPO}/actions/runs/${INPUT_GITHUB_RUN_ID}\"," >> executor.json
+echo "\"buildName\":\"GitHub Actions Run #${INPUT_GITHUB_RUN_ID}\",\"buildOrder\":\"${INPUT_GITHUB_RUN_NUM}\"}" >> executor.json
+#cat executor.json
+mv ./executor.json ./${INPUT_ALLURE_RESULTS}
+
+#environment.properties
+echo "URL=${S3_WEBSITE_URL}" >> ./${INPUT_ALLURE_RESULTS}/environment.properties
+
+echo "generating report from ${INPUT_ALLURE_RESULTS} to ${INPUT_ALLURE_REPORT} ..."
+ls -l ${INPUT_ALLURE_RESULTS}
+allure generate --clean ${INPUT_ALLURE_RESULTS} -o ${INPUT_ALLURE_REPORT}
+echo "listing report directory ..."
+ls -l ${INPUT_ALLURE_REPORT}
+
+echo "copy allure-report to ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
+cp -r ./${INPUT_ALLURE_REPORT}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}
+echo "copy allure-report history to /${INPUT_ALLURE_HISTORY}/last-history"
+# cp -r ./${INPUT_ALLURE_REPORT}/history/. ./${INPUT_ALLURE_HISTORY}/last-history
 
 #echo "index.html"
-echo "<!DOCTYPE html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; URL=${S3_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\">" > ./${INPUT_PLAYWRIGHT_HISTORY}/index.html # path
-echo "<meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">" >> ./${INPUT_PLAYWRIGHT_HISTORY}/index.html
-cat ./${INPUT_PLAYWRIGHT_HISTORY}/index.html
+echo "<!DOCTYPE html><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; URL=${S3_WEBSITE_URL}/${INPUT_GITHUB_RUN_NUM}/\">" > ./${INPUT_ALLURE_HISTORY}/index.html # path
+echo "<meta http-equiv=\"Pragma\" content=\"no-cache\"><meta http-equiv=\"Expires\" content=\"0\">" >> ./${INPUT_ALLURE_HISTORY}/index.html
+cat ./${INPUT_ALLURE_HISTORY}/index.html
 
-echo "copy playwright-results to ${INPUT_PLAYWRIGHT_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
-cp -R ./${INPUT_PLAYWRIGHT_RESULTS}/. ./${INPUT_PLAYWRIGHT_HISTORY}/${INPUT_GITHUB_RUN_NUM}
+echo "copy allure-results to ${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}"
+cp -R ./${INPUT_ALLURE_RESULTS}/. ./${INPUT_ALLURE_HISTORY}/${INPUT_GITHUB_RUN_NUM}
 
 set -e
 
@@ -60,7 +85,7 @@ sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
 
 # Delete history
 COUNT=$( sh -c "aws s3 ls s3://${AWS_S3_BUCKET}" | sort -n | grep "PRE" | wc -l )
-echo "count folders in playwright-history: ${COUNT}"
+echo "count folders in allure-history: ${COUNT}"
 echo "keep reports count ${INPUT_KEEP_REPORTS}"
 INPUT_KEEP_REPORTS=$((INPUT_KEEP_REPORTS+1))
 echo "if ${COUNT} > ${INPUT_KEEP_REPORTS}"

@@ -1,0 +1,40 @@
+name: allure
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Create Allure Test Results History
+        uses: PavanMudigonda/allure-html-report-s3-website@v0.1
+        with:
+          report_url: http://cicd-devops-mudigonda.s3-website-us-east-1.amazonaws.com
+          allure_results: allure-results
+          allure_history: allure-history
+          allure_report: allure-report
+          keep_reports: 2
+          args: --acl public-read --follow-symlinks
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
+          SOURCE_DIR: 'playwright-history'      # optional: defaults to entire repository
+          # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
+          
+      - name: Post the link to the report
+        if: always()
+        uses: Sibz/github-status-action@v1
+        with: 
+            authToken: ${{secrets.GITHUB_TOKEN}}
+            context: 'Test Results Link'
+            state: 'success'
+            sha: ${{ github.sha }}
+            target_url: http://cicd-devops-mudigonda.s3-website-us-east-1.amazonaws.com/${{ github.run_number }}/index.html

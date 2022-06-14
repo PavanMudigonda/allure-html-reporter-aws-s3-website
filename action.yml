@@ -5,18 +5,18 @@ branding:
   icon: 'layout'
   color: 'green'
 inputs:
-  playwright_results:
-    description: 'Playwright test result data dir'
+  allure_results:
+    description: 'Allure test result data dir'
     required: true
-    default: 'test-results'
-  playwright_history:
-    description: 'Folder for playwright history'
+    default: 'allure-results'
+  allure_report:
+    description: 'Allure report target dir'
     required: true
-    default: 'playwright-history'
-  keep_reports:
-    description: 'Keep X last reports'
-    required: false
-    default: '20'    
+    default: 'allure-report'
+  allure_history:
+    description: 'Folder for allure history'
+    required: true
+    default: 'allure-history'
   github_run_num:
     description: 'GitHub Actions build number'
     required: true
