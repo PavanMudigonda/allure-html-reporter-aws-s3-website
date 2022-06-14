@@ -1,6 +1,6 @@
-Example workflow file [playwright-github-pages](https://github.com/PavanMudigonda/allure-html-report-s3-website/blob/main/.github/workflows/allure.yml))
+Example workflow file [allure-html-report-aws-s3-website](https://github.com/PavanMudigonda/allure-html-report-s3-website/blob/main/.github/workflows/allure.yml))
 
-# Playwright HTML Test Results on AWS S3 Bucket with history action
+# Allure HTML Test Results on AWS S3 Bucket with history action
 
 ## Usage
 
