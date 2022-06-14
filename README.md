@@ -73,11 +73,9 @@ The following settings must be passed as environment variables as shown in the e
 
 ### AWS S3 Bucket folder structure sample:- Organized by Github Run Number
 
-![image](https://user-images.githubusercontent.com/29324338/173656755-d47f949b-b11b-45fe-ae94-951751104397.png)
+<img width="1096" alt="image" src="https://user-images.githubusercontent.com/29324338/173703637-a30667f5-4ff7-487e-bbf5-fcd015d44263.png">
 
 ### AWS S3 Static Website Sample:- Full Report, Errors, Screenshots, Trace, Video is fully visible !
-
-<img width="1096" alt="image" src="https://user-images.githubusercontent.com/29324338/173703637-a30667f5-4ff7-487e-bbf5-fcd015d44263.png">
 
 <img width="1419" alt="image" src="https://user-images.githubusercontent.com/29324338/173703662-0f6a8c54-466e-4722-8344-b1c8635a57e1.png">
 <img width="841" alt="image" src="https://user-images.githubusercontent.com/29324338/173703700-419a6697-e235-422f-af87-cfd4236eb6a6.png">
