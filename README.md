@@ -71,7 +71,8 @@ The following settings must be passed as environment variables as shown in the e
 | `SOURCE_DIR` | The local directory (or file) you wish to sync/upload to S3. For example, `public`. Defaults to your entire repository. | `env` | No | `./` (root of cloned repository) |
 | `DEST_DIR` | The directory inside of the S3 bucket you wish to sync/upload to. For example, `my_project/assets`. Defaults to the root of the bucket. | `env` | No | `/` (root of bucket) |
 
-### AWS S3 Bucket folder structure sample:- Organized by Github Run Number
+### AWS S3 Bucket folder structure sample:- Organized by Github Run Number. 
+Note:- Always the index.html points to latest results. If you would like to visit previous run results just change the Github Run number in the URL.
 
 <img width="1341" alt="image" src="https://user-images.githubusercontent.com/29324338/173705832-3954fcff-1902-45ef-bc61-3515b98f3b23.png">
 
