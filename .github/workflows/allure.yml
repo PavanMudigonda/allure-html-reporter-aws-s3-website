@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: allure-html-report-s3-website
-        uses: PavanMudigonda/allure-html-report-aws-s3-website@v0.1
+        uses: PavanMudigonda/allure-html-report-aws-s3-website@v0.2
         with:
           report_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION }}.amazonaws.com
           allure_results: allure-results
