@@ -1,4 +1,4 @@
-Example workflow file [allure-html-report-aws-s3-website](https://github.com/PavanMudigonda/allure-html-report-s3-website/blob/main/.github/workflows/allure.yml))
+Example workflow file [allure-html-report-aws-s3-website](https://github.com/PavanMudigonda/allure-html-reporter-s3-website/blob/main/.github/workflows/allure.yml))
 
 # Allure HTML Test Results on AWS S3 Bucket with history action
 
@@ -30,14 +30,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: allure-html-report-s3-website
-        uses: PavanMudigonda/allure-html-report-aws-s3-website@main
+        uses: PavanMudigonda/allure-html-reporter-aws-s3-website@main
         with:
           report_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com
           allure_results: allure-results
           allure_history: allure-history
           allure_report: allure-report
           keep_reports: 2
-          args: --acl public-read --follow-symlinks
+          args: --acl public-read --follow-symlinks 
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -45,7 +45,8 @@ jobs:
           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
           SOURCE_DIR: 'allure-history'      # optional: defaults to entire repository
           # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
-      - name: Post the link to the report
+          
+      - name: Post the link to the report # Optional
         if: always()
         uses: Sibz/github-status-action@v1
         with: 
