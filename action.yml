@@ -1,4 +1,4 @@
-name: 'allure-html-report-s3-website'
+name: 'allure-html-reporter-aws-s3-website'
 description: 'Allure HTML Test Results with history to publish to AWS S3 Bucket'
 author: 'Pavan Mudigonda'
 branding:
