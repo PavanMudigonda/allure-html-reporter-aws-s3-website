@@ -15,7 +15,7 @@ jobs:
       - name: allure-html-report-s3-website
         uses: PavanMudigonda/allure-html-report-aws-s3-website@v0.1
         with:
-          report_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com
+          report_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION }}.amazonaws.com
           allure_results: allure-results
           allure_history: allure-history
           allure_report: allure-report
@@ -37,4 +37,4 @@ jobs:
             context: 'Test Results Link'
             state: 'success'
             sha: ${{ github.sha }}
-            target_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com/${{ github.run_number }}/index.html
+            target_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ secrets.AWS_REGION }}.amazonaws.com/index.html
