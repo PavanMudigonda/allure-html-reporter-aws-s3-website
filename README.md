@@ -102,6 +102,3 @@ Note:- Always the index.html points to Test Results History Page
 <img width="1438" alt="image" src="https://user-images.githubusercontent.com/29324338/173703740-f2d3c1f3-1bbe-483c-a198-7c88b92f7b1f.png">
 
 
-## License
-
-This project is distributed under the [MIT license](LICENSE.md).
