@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: allure-html-report-s3-website
-        uses: PavanMudigonda/allure-html-reporter-aws-s3-website@main
+        uses: PavanMudigonda/allure-html-reporter-aws-s3-website@v1.0
         with:
           report_url: http://allure-report-bucket.s3-website-us-east-1.amazonaws.com
           allure_results: allure-results
