@@ -36,9 +36,8 @@ RUN echo $RELEASE && \
     rm -rf /var/cache/apk/*
 
 RUN wget --no-verbose -O /tmp/allure-$RELEASE.tgz $ALLURE_REPO/$RELEASE/allure-commandline-$RELEASE.tgz && \
-    tar -xf /tmp/allure-$RELEASE.tgz && \
-    rm -rf /tmp/* && \
-    chmod -R +x /allure-$RELEASE/bin
+    tar -xf ./allure-$RELEASE.tgz && \
+    chmod -R +x ./allure-$RELEASE/bin
 
 ENV ROOT=/app \
     PATH=$PATH:/allure-$RELEASE/bin
