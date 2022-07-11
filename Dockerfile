@@ -35,7 +35,7 @@ RUN echo $RELEASE && \
     apk add --no-cache bash wget unzip && \
     rm -rf /var/cache/apk/*
 
-RUN wget --no-verbose -O /tmp/allure-$RELEASE.tgz $ALLURE_REPO/$RELEASE/allure-commandline-$RELEASE.tgz && \
+RUN wget --no-verbose -O ./allure-$RELEASE.tgz $ALLURE_REPO/$RELEASE/allure-commandline-$RELEASE.tgz && \
     tar -xf ./allure-$RELEASE.tgz && \
     chmod -R +x ./allure-$RELEASE/bin
 
