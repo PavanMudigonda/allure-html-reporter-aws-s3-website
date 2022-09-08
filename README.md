@@ -3,6 +3,7 @@
 | **Allure HTML**     | [GH Action Link](https://github.com/marketplace/actions/allure-html-reporter-github-pages) | [GH Action Link](https://github.com/marketplace/actions/allure-html-reporter-azure-website)            | [GH Action Link](https://github.com/marketplace/actions/allure-html-reporter-aws-s3-website )      |
 | **Any HTML Reports** | [GH Action Link](https://github.com/marketplace/actions/html-reporter-github-pages) | [GH Action Link](https://github.com/marketplace/actions/html-reporter-azure-website)            | [GH Action Link](https://github.com/marketplace/actions/html-reporter-aws-s3-website) |
 
+## If you like my Github Action, please STAR ⭐ it.
 
 Example workflow file [allure-html-report-aws-s3-website](https://github.com/PavanMudigonda/allure-html-reporter-s3-website/blob/main/.github/workflows/allure.yml))
 
